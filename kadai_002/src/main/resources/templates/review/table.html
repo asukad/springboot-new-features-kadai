@@ -38,24 +38,24 @@
 										<div class="card-body">
 											<h3 class="card-title mb-3" th:text="${review.getUser().getName()}"></h3>
 											<div class="position-absolute top-0 end-0 m-3">
-												<div
-													th:if="${review.getUser().getName()==#authentication.principal.user.name}">
-												</div>
+<!--												<div-->
+<!--													th:if="${review.getUser().getName()==#authentication.principal.user.name}">-->
+<!--												</div>-->
 
 											</div>
 										</div>
 										<!--評価-->
 										<p class="card-text">
 											<span
-												th:if="${review.getRating()=='1'}">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
+												th:if="${review.getRating()=='1'}" style="color: gold;">&#9733;&#9734;&#9734;&#9734;&#9734;</span>
 											<span
-												th:if="${review.getRating()=='2'}">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
+												th:if="${review.getRating()=='2'}" style="color:gold;">&#9733;&#9733;&#9734;&#9734;&#9734;</span>
 											<span
-												th:if="${review.getRating()=='3'}">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
+												th:if="${review.getRating()=='3'}" style="color:gold;">&#9733;&#9733;&#9733;&#9734;&#9734;</span>
 											<span
-												th:if="${review.getRating()=='4'}">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+												th:if="${review.getRating()=='4'}" style="color:gold;">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
 											<span
-												th:if="${review.getRating()=='5'}">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+												th:if="${review.getRating()=='5'}" style="color:gold;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
 										</p>
 										<!--投稿日-->
 										<p class="card-text mb-2">

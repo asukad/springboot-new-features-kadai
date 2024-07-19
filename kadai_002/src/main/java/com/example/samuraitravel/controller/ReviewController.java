@@ -38,8 +38,7 @@ public class ReviewController {
     this.reviewService = reviewService;
     this.houseRepository = houseRepository;
   }
-  @GetMapping
-  //public String index(Model model,@PageableDefault(page = 0, size = 6, sort = "id", direction = Direction.ASC)Pageable pageable) {
+  @GetMapping  
   public String index(Model model,@PageableDefault(page = 0, size = 6, sort = "id", direction = Direction.ASC)Pageable pageable) {
   
 	   Page<Review> reviewPage;   
