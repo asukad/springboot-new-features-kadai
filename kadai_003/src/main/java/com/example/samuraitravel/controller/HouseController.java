@@ -46,7 +46,8 @@ public class HouseController {
 			@RequestParam(name = "price", required = false) Integer price,
 			@RequestParam(name = "order", required = false) String order,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
-			Model model) {
+			Model model)
+	{
 		Page<House> housePage;
 
 		if (keyword != null && !keyword.isEmpty()) {
@@ -100,27 +101,33 @@ public class HouseController {
 	//追加コンテンツ
 	@GetMapping("/{id}")
 	public String show(@PathVariable(name = "id") Integer id, Model model, 
-	                   @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-	    House house = houseRepository.getReferenceById(id);
-	    User user = userDetailsImpl.getUser();
-	    boolean hasUserAlreadyReviewed = false;
+            @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+		House house = houseRepository.getReferenceById(id);
 
-	    if (userDetailsImpl != null) {
-	        hasUserAlreadyReviewed = reviewService.hasUserAlreadyReviewed(house, user);
-	    }
+		User user = null;
+		boolean hasUserAlreadyReviewed = false;
+		boolean favoriteExists = false;
 
-	    List<Review> newReviews = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
-	    long totalReviewCount = reviewRepository.countByHouse(house);
-	    boolean favoriteExists = favoriteService.favoriteExists(house, user);
+		if (userDetailsImpl != null) {
+			user = userDetailsImpl.getUser();
+			hasUserAlreadyReviewed = reviewService.hasUserAlreadyReviewed(house, user);
+			favoriteExists = favoriteService.favoriteExists(house, user);
+		} else {
+			// ログインユーザーが存在しない場合のデフォルト処理
+			user = new User(); // もしくは必要に応じて null を維持
+		}
 
-	    model.addAttribute("house", house);
-	    model.addAttribute("reservationInputForm", new ReservationInputForm());
-	    model.addAttribute("hasUserAlreadyReviewed", hasUserAlreadyReviewed);
-	    model.addAttribute("newReviews", newReviews);
-	    model.addAttribute("totalReviewCount", totalReviewCount);
-	    model.addAttribute("favoriteExists", favoriteExists);
+		List<Review> newReviews = reviewRepository.findTop6ByHouseOrderByCreatedAtDesc(house);
+		long totalReviewCount = reviewRepository.countByHouse(house);
 
-	    return "houses/show";
+		model.addAttribute("house", house);
+		model.addAttribute("reservationInputForm", new ReservationInputForm());
+		model.addAttribute("hasUserAlreadyReviewed", hasUserAlreadyReviewed);
+		model.addAttribute("newReviews", newReviews);
+		model.addAttribute("totalReviewCount", totalReviewCount);
+		model.addAttribute("favoriteExists", favoriteExists);
+
+		return "houses/show";
 	}
  
 }
